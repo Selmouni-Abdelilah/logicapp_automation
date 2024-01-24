@@ -1,0 +1,28 @@
+{
+  "managedApiConnections": {
+    "arm": {
+      "api": {
+        "id": "/subscriptions/1dabcf09-861c-4374-aebf-d63be509564b/providers/Microsoft.Web/locations/eastus/managedApis/arm"
+      },
+      "connection": {
+        "id": "/subscriptions/1dabcf09-861c-4374-aebf-d63be509564b/resourceGroups/021-022-task/providers/Microsoft.Web/connections/arm"
+      },
+      "authentication": {
+        "type": "ManagedServiceIdentity"
+      },
+      "connectionRuntimeUrl": "https://f85740dbad2c1f54.00.common.logic-eastus.azure-apihub.net/apim/arm/63252296cdb349bb9fd4939b1b919167"
+    },
+    "slack": {
+      "api": {
+        "id": "/subscriptions/1dabcf09-861c-4374-aebf-d63be509564b/providers/Microsoft.Web/locations/eastus/managedApis/slack"
+      },
+      "connection": {
+        "id": "/subscriptions/1dabcf09-861c-4374-aebf-d63be509564b/resourceGroups/021-022-task/providers/Microsoft.Web/connections/slack"
+      },
+      "authentication": {
+        "type": "ManagedServiceIdentity"
+      },
+      "connectionRuntimeUrl": "https://f85740dbad2c1f54.00.common.logic-eastus.azure-apihub.net/apim/slack/4fff2b5ecf654d549aba06840befc85f"
+    }
+  }
+}
