@@ -1,0 +1,136 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "actions": {
+      "Initialize_variable": {
+        "type": "InitializeVariable",
+        "inputs": {
+          "variables": [
+            {
+              "name": "AffectedResource",
+              "type": "array",
+              "value": "@split(triggerBody()?['data']?['essentials']?['alertTargetIDs'][0], '/')"
+            }
+          ]
+        },
+        "runAfter": {}
+      },
+      "Read_a_resource": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "referenceName": "arm"
+            }
+          },
+          "method": "get",
+          "path": "/subscriptions/@{encodeURIComponent(variables('AffectedResource')[2])}/resourcegroups/@{encodeURIComponent(variables('AffectedResource')[4])}/providers/@{encodeURIComponent(variables('AffectedResource')[6])}/@{encodeURIComponent(concat(variables('AffectedResource')[7], '/', variables('AffectedResource')[8]))}",
+          "queries": {
+            "x-ms-api-version": "2023-09-01"
+          }
+        },
+        "runAfter": {
+          "Initialize_variable": [
+            "SUCCEEDED"
+          ]
+        }
+      },
+      "Post_message_(V2)": {
+        "type": "ApiConnection",
+        "inputs": {
+          "host": {
+            "connection": {
+              "referenceName": "slack"
+            }
+          },
+          "method": "post",
+          "body": {
+            "channel": "C06F8S6QXBM",
+            "text": "Resource Name:@{body('Read_a_resource')?['name']}\nLocation:@{body('Read_a_resource')?['location']}\nResource Type:@{body('Read_a_resource')?['type']}\nMonitor Condition:@{triggerBody()?['data']?['essentials']?['monitorCondition']}\nSeverity:@{triggerBody()?['data']?['essentials']?['severity']}\nFired date time :@{triggerBody()?['data']?['essentials']?['firedDateTime']}"
+          },
+          "path": "/v2/chat.postMessage"
+        },
+        "runAfter": {
+          "Read_a_resource": [
+            "SUCCEEDED"
+          ]
+        }
+      }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "triggers": {
+      "When_a_HTTP_request_is_received": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "schemaId": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "essentials": {
+                    "type": "object",
+                    "properties": {
+                      "alertId": {
+                        "type": "string"
+                      },
+                      "alertRule": {
+                        "type": "string"
+                      },
+                      "severity": {
+                        "type": "string"
+                      },
+                      "signalType": {
+                        "type": "string"
+                      },
+                      "monitorCondition": {
+                        "type": "string"
+                      },
+                      "monitoringService": {
+                        "type": "string"
+                      },
+                      "alertTargetIDs": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "originAlertId": {
+                        "type": "string"
+                      },
+                      "firedDateTime": {
+                        "type": "string"
+                      },
+                      "resolvedDateTime": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "essentialsVersion": {
+                        "type": "string"
+                      },
+                      "alertContextVersion": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "alertContext": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "kind": "Stateful"
+}
