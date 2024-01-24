@@ -37,3 +37,25 @@ resource "azurerm_logic_app_standard" "logicapp" {
     type = "SystemAssigned"
   }
 }
+resource "azurerm_resource_group_template_deployment" "arm_api_connection" {
+  name                = "arm-api-connection"
+  resource_group_name = data.azurerm_resource_group.core.name
+
+  template_content = data.local_file.arm_api_connection.content
+
+  deployment_mode = "Incremental"
+}
+resource "azurerm_resource_group_template_deployment" "slack_api_connection" {
+  name                = "slack-api-connection"
+  resource_group_name = data.azurerm_resource_group.core.name
+
+  template_content = data.local_file.slack_api_connection.content
+
+  deployment_mode = "Incremental"
+}
+data "local_file" "arm_api_connection" {
+  filename = "${path.module}/api-arm-connection.json.json"
+}
+data "local_file" "slack_api_connection" {
+  filename = "${path.module}/api-connection-slack.json.json"
+}
