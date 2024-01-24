@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
@@ -25,22 +21,6 @@ resource "azurerm_app_service_plan" "svcplan" {
     tier = "WorkflowStandard"
     size = "WS1"
   }
-}
-
-resource "azurerm_log_analytics_workspace" "loganalytics" {
-  name                = var.log_workspace_name
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
-}
-
-resource "azurerm_application_insights" "appinsight" {
-  name                     = var.app_insights_name
-  location                 = azurerm_resource_group.rg.location
-  resource_group_name      = azurerm_resource_group.rg.name
-  application_type         = "web"
-  workspace_id             = azurerm_log_analytics_workspace.loganalytics.id
 }
 
 resource "azurerm_logic_app_standard" "logicapp" {
