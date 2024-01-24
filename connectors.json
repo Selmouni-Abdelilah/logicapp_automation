@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "location": {
+          "type": "string",
+          "metadata": {
+            "description": "The datacenter to use for the deployment."
+          }
+      },
+      "connections_arm_name": {
+            "defaultValue": "arm",
+            "type": "String"
+        },
+        "connections_slack_name": {
+            "defaultValue": "slack",
+            "type": "String"
+        }
+      
+  },
+  "resources": [
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2018-07-01-preview",
+            "name": "[parameters('connections_arm_name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "api": {
+                    "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('location'), parameters('connections_arm_name'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2018-07-01-preview",
+            "name": "[parameters('connections_slack_name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "api": {
+                "id": "[subscriptionResourceId('Microsoft.Web/locations/managedApis', parameters('location'), parameters('connections_slack_name'))]"
+                },
+                "displayName": "slack"
+            }
+        }
+  ]
+}

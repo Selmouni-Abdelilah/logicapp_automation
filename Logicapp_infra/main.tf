@@ -31,7 +31,14 @@ resource "azurerm_logic_app_standard" "logicapp" {
   storage_account_name       = azurerm_storage_account.storageacc.name
   storage_account_access_key = azurerm_storage_account.storageacc.primary_access_key
 
-  app_settings = var.app_settings
+  app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME"              = "node"
+    "WEBSITE_NODE_DEFAULT_VERSION"          = "~12"
+    "subscription"                          = data.azurerm_subscription.current.subscription_id
+    "resource_group"                        = azurerm_resource_group.rg.name
+    "arm_connection_runtime_url"            = jsondecode(azurerm_resource_group_template_deployment.arm_api_connection.output_content).connectionRuntimeUrl.value
+    "slack_connection_runtime_url"          = jsondecode(azurerm_resource_group_template_deployment.slack_api_connection.output_content).connectionRuntimeUrl.value  
+  }
   
   identity {
     type = "SystemAssigned"
@@ -58,4 +65,6 @@ data "local_file" "arm_api_connection" {
 }
 data "local_file" "slack_api_connection" {
   filename = "${path.module}/api-connection-slack.json.json"
+}
+data "azurerm_subscription" "current" {
 }
