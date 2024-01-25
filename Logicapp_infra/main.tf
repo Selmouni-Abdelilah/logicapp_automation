@@ -60,11 +60,51 @@ resource "azurerm_resource_group_template_deployment" "slack_api_connection" {
 
   deployment_mode = "Incremental"
 }
+resource "azurerm_resource_group_template_deployment" "slack_api_connection_access_policy" {
+  name                = "slack-api-connection-access-policy"
+  resource_group_name = azurerm_resource_group.rg.name
+
+  template_content = data.local_file.slack_access_policy.content
+
+  parameters_content = jsonencode({
+    "servicePrincipalId" = {
+      value = azurerm_logic_app_standard.logicapp.identity.0.principal_id
+    },
+    "servicePrincipalTenantId" = {
+      value = azurerm_logic_app_standard.logicapp.identity.0.tenant_id
+    }
+  })
+
+  deployment_mode = "Incremental"
+}
+resource "azurerm_resource_group_template_deployment" "arm_api_connection_access_policy" {
+  name                = "arm-api-connection-access-policy"
+  resource_group_name = azurerm_resource_group.rg.name
+
+  template_content = data.local_file.arm_access_policy.content
+
+  parameters_content = jsonencode({
+    "servicePrincipalId" = {
+      value = azurerm_logic_app_standard.logicapp.identity.0.principal_id
+    },
+    "servicePrincipalTenantId" = {
+      value = azurerm_logic_app_standard.logicapp.identity.0.tenant_id
+    }
+  })
+
+  deployment_mode = "Incremental"
+}
 data "local_file" "arm_api_connection" {
   filename = "${path.module}/api-arm-connection.json"
 }
 data "local_file" "slack_api_connection" {
   filename = "${path.module}/api-connection-slack.json"
+}
+data "local_file" "slack_access_policy" {
+  filename = "${path.module}/slack_access_policy.json"
+}
+data "local_file" "arm_access_policy" {
+  filename = "${path.module}/arm_access_policy.json"
 }
 data "azurerm_subscription" "current" {
 }
