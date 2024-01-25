@@ -1,0 +1,5 @@
+resource_group_name = "logicapp-rg"
+location = "East US"
+storage_account_name = "logicappacc"
+app_service_plan_name = "logicappserviceplan"
+logic_app_name = "logicapptoslack"

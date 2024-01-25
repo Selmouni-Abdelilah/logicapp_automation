@@ -5,6 +5,9 @@
         "connections_arm_name": {
             "defaultValue": "arm",
             "type": "String"
+        },
+        "subscription": {
+            "type": "String"
         }
     },
     "variables": {},
@@ -17,7 +20,7 @@
             "kind": "V2",
             "properties": {
                 "api": {
-                    "id": "[concat('/subscriptions/','1dabcf09-861c-4374-aebf-d63be509564b', '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_arm_name'))]"
+                    "id": "[concat('/subscriptions/',parameters('subscription'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_arm_name'))]"
                 }
             }
         }
