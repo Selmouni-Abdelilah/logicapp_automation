@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "connections_slack_name": {
-            "defaultValue": "arm",
+            "defaultValue": "slack",
             "type": "String"
         }
     },
@@ -17,9 +17,15 @@
             "kind": "V2",
             "properties": {
                 "api": {
-                    "id": "[concat('subscription().id', '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_slack_name'))]"
+                    "id": "[concat('/subscriptions/','1dabcf09-861c-4374-aebf-d63be509564b', '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_slack_name'))]"
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+        "connectionRuntimeUrl": {
+        "type": "string",
+        "value": "[reference(resourceId('Microsoft.Web/connections', 'slack'),'2016-06-01', 'full').properties.connectionRuntimeUrl]"
+    }
+  }
 }

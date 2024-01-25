@@ -17,9 +17,15 @@
             "kind": "V2",
             "properties": {
                 "api": {
-                    "id": "[concat('subscription().id', '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_arm_name'))]"
+                    "id": "[concat('/subscriptions/','1dabcf09-861c-4374-aebf-d63be509564b', '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('connections_arm_name'))]"
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+        "connectionRuntimeUrl": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Web/connections', 'arm'),'2016-06-01', 'full').properties.connectionRuntimeUrl]"
+    }
+  }
 }

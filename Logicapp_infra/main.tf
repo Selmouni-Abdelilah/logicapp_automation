@@ -37,7 +37,7 @@ resource "azurerm_logic_app_standard" "logicapp" {
     "subscription"                          = data.azurerm_subscription.current.subscription_id
     "resource_group"                        = azurerm_resource_group.rg.name
     "arm_connection_runtime_url"            = jsondecode(azurerm_resource_group_template_deployment.arm_api_connection.output_content).connectionRuntimeUrl.value
-    "slack_connection_runtime_url"          = jsondecode(azurerm_resource_group_template_deployment.slack_api_connection.output_content).connectionRuntimeUrl.value  
+    "slack_connection_runtime_url"          = jsondecode(azurerm_resource_group_template_deployment.slack_api_connection.output_content).connectionRuntimeUrl.value
   }
   
   identity {
@@ -46,7 +46,7 @@ resource "azurerm_logic_app_standard" "logicapp" {
 }
 resource "azurerm_resource_group_template_deployment" "arm_api_connection" {
   name                = "arm-api-connection"
-  resource_group_name = data.azurerm_resource_group.core.name
+  resource_group_name = azurerm_resource_group.rg.name
 
   template_content = data.local_file.arm_api_connection.content
 
@@ -54,17 +54,17 @@ resource "azurerm_resource_group_template_deployment" "arm_api_connection" {
 }
 resource "azurerm_resource_group_template_deployment" "slack_api_connection" {
   name                = "slack-api-connection"
-  resource_group_name = data.azurerm_resource_group.core.name
+  resource_group_name = azurerm_resource_group.rg.name
 
   template_content = data.local_file.slack_api_connection.content
 
   deployment_mode = "Incremental"
 }
 data "local_file" "arm_api_connection" {
-  filename = "${path.module}/api-arm-connection.json.json"
+  filename = "${path.module}/api-arm-connection.json"
 }
 data "local_file" "slack_api_connection" {
-  filename = "${path.module}/api-connection-slack.json.json"
+  filename = "${path.module}/api-connection-slack.json"
 }
 data "azurerm_subscription" "current" {
 }
