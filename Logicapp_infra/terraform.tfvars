@@ -1,4 +1,4 @@
-resource_group_name = "logicapp-rg"
+resource_group_name = "logic-app-rg"
 location = "East US"
 storage_account_name = "logicappacc"
 app_service_plan_name = "logicappserviceplan"
