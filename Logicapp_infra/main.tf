@@ -39,6 +39,7 @@ resource "azurerm_logic_app_standard" "logicapp" {
   site_config {
     ftps_state             = "Disabled"
     vnet_route_all_enabled = true
+    always_on = false
   }
   identity {
     type = "SystemAssigned"
