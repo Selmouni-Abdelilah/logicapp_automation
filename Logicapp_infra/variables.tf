@@ -1,6 +1,6 @@
 variable "resource_group_name" {
   description = "Name of the Azure Resource Group"
-  default     = "la-tfdeploy-rg"
+  default     = "logic-app-rg"
 }
 
 variable "location" {
@@ -10,15 +10,15 @@ variable "location" {
 
 variable "storage_account_name" {
   description = "Name of the Azure Storage Account"
-  default     = "logicappacc"
+  default     = "logicappacc1937"
 }
 
 variable "app_service_plan_name" {
   description = "Name of the App Service Plan"
-  default     = "logicappserviceplan"
+  default     = "logicapp-service-plan"
 }
 
 variable "logic_app_name" {
   description = "Name of the Logic App"
-  default     = "logicapptoslack"
+  default     = "logicapptoslackterraform"
 }
