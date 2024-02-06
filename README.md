@@ -54,9 +54,4 @@ git clone https://github.com/Selmouni-Abdelilah/logicapp_automation.git
 4. **Deploy Workflow:**
 - Packages Logic App workflow files into zip and deploys to provisioned Logic App in Azure
 
-## Notes
-- Ensure Terraform plugins and Azure CLI tools are installed and configured on Jenkins server
-- Monitor pipeline execution and Azure resources regularly
-- Customize Terraform configuration and Jenkins pipeline as needed
-
 By following this guide, you can automate the deployment of standard Logic App infrastructure on Azure using Terraform within a Jenkins pipeline, enabling efficient and consistent provisioning of Logic Apps in your Azure environment.
